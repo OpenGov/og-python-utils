@@ -21,7 +21,7 @@ def readMD(fname):
 version = '0.0.1'
 required = [req.strip() for req in read('requirements.txt').splitlines() if req.strip()]
 setup(
-    name='CacheMan',
+    name='og-utils',
     version=version,
     author='Matthew Seal',
     author_email='mseal@opengov.com',
