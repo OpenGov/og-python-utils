@@ -18,7 +18,7 @@ def readMD(fname):
     else:
         return read(fname)
 
-version = '0.0.1'
+version = '0.0.2'
 required = [req.strip() for req in read('requirements.txt').splitlines() if req.strip()]
 setup(
     name='og-utils',
