@@ -23,6 +23,8 @@ class FlaskLoggerTest(unittest.TestCase):
             return ''.join(console.readlines())
 
     def setUp(self):
+        if not os.path.exists(LOCAL_LOG_DIR):
+            os.makedirs(LOCAL_LOG_DIR)
         self.clear_logs()
         self.log_matcher = re.compile('\[\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d\] Log Me!\n')
         self.logger = default.build_default_logger('default_logger', log_level=logging.INFO, log_dir=LOCAL_LOG_DIR)
