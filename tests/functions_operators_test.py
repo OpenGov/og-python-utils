@@ -61,7 +61,8 @@ class FunctionOperatorsTest(unittest.TestCase):
 
         self.assertEquals(operators.repeat_call(lambda a: a, 0, 'success'), 'success')
         fail_count_down.fail_count = 2
-        self.assertEquals(operators.repeat_call(fail_count_down, 2, 'third', a='b'), (('third',), {'a': 'b'}))
+        self.assertEquals(operators.repeat_call(fail_count_down, 2, 'third', a='b'),
+                          (('third',), {'a': 'b'}))
 
 if __name__ == "__main__":
     unittest.main()

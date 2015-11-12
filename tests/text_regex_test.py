@@ -22,8 +22,11 @@ class TextRegexTest(unittest.TestCase):
 
     def test_many_chained_regex(self):
         self.assertEquals(regex.chain_sub_regexes('foobar', ('[a]+', 'o'), ('o', 'a')), 'faabar')
-        self.assertEquals(regex.chain_sub_regexes('foobar', ('.$', 'z'), (re.compile('^.'), 'b')), 'boobaz')
-        self.assertEquals(regex.chain_sub_regexes('foobar', ('a', 'b'), ('b', 'c'), ('c', 'd'), ('d', 'e'), ('e', 'f')), 'fooffr')
+        self.assertEquals(regex.chain_sub_regexes('foobar', ('.$', 'z'), (re.compile('^.'), 'b')),
+                                                  'boobaz')
+        self.assertEquals(regex.chain_sub_regexes('foobar', ('a', 'b'), ('b', 'c'),
+                                                  ('c', 'd'), ('d', 'e'), ('e', 'f')),
+                                                  'fooffr')
 
 if __name__ == "__main__":
     unittest.main()

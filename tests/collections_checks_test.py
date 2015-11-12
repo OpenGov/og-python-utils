@@ -38,10 +38,12 @@ class CollectionChecksTest(unittest.TestCase):
         self.assertEquals(checks.is_empty(e for e in []), True)
 
     def test_any_shared(self):
-        enumerables = ([], {}, set(), 'abc', ['test'], ['a', 'b'], {'test': 'value', 'a': 'b'}, FakeIterable(['b']))
+        enumerables = ([], {}, set(), 'abc', ['test'], ['a', 'b'], {'test': 'value', 'a': 'b'},
+                       FakeIterable(['b']))
         for enum_one in enumerables:
             for enum_two in enumerables:
-                self.assertEquals(checks.any_shared(enum_one, enum_two), any(set(enum_one) & set(enum_two)))
+                self.assertEquals(checks.any_shared(enum_one, enum_two),
+                                  any(set(enum_one) & set(enum_two)))
 
     def test_any_shared_non_iterable(self):
         # Non-iterable elements always return false

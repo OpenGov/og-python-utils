@@ -33,7 +33,8 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertEquals(list(transformations.recursive_iter([[['abc'], 'def']])), ['abc', 'def'])
         self.assertEquals(list(transformations.recursive_iter([[[['abc']]], [['def']]])), ['abc', 'def'])
         self.assertEquals(list(transformations.recursive_iter([[[[['abc']]]], 'def'])), ['abc', 'def'])
-        self.assertEquals(list(transformations.recursive_iter((set([('abc',)]), ([('def',)],)))), ['abc', 'def'])
+        self.assertEquals(list(transformations.recursive_iter((set([('abc',)]), ([('def',)],)))),
+                                                              ['abc', 'def'])
         self.assertEquals(list(transformations.recursive_iter([[[[[1]]]], [FakeIterable([2])]])), [1, 2])
 
     def test_flatten_basics(self):
