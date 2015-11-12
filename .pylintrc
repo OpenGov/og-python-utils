@@ -175,7 +175,7 @@ ignore-docstrings=yes
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=80
+max-line-length=105
 
 # Maximum number of lines in a module
 max-module-lines=1000
@@ -183,7 +183,8 @@ max-module-lines=1000
 # String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
 # tab).
 # CHANGED:
-indent-string='  '
+indent-string='    '
+#indent-after-paren=2
 
 
 [BASIC]
