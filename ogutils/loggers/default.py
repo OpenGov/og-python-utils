@@ -71,8 +71,14 @@ class StdErrForwarder(object):
         return sys.stderr.isatty()
 
 class DefaultLogger(ExtraAttributeLogger, DebugEvalLogger):
-    def apply_default_handlers(self, log_dir=None, console_enabled=True, max_log_size=5*1024*1024,
-                               max_backup_logs=5, formatter=DEFAULT_LOGGER_FORMAT):
+    def apply_default_handlers(
+        self,
+        log_dir=None,
+        console_enabled=True,
+        max_log_size=5*1024*1024,
+        max_backup_logs=5,
+        formatter=DEFAULT_LOGGER_FORMAT):
+        
         if console_enabled:
             stdout_handler = logging.StreamHandler(StdOutForwarder())
             stdout_handler.setFormatter(formatter)
@@ -93,9 +99,10 @@ class DefaultLogger(ExtraAttributeLogger, DebugEvalLogger):
             file_handler.addFilter(FileFilter())
             self.addHandler(file_handler)
 
-            error_file_handler = logging.handlers.RotatingFileHandler(os.path.join(log_dir,
-                                                                                   'errors.log'),
-                maxBytes=max_log_size, backupCount=max_backup_logs)
+            error_file_handler = logging.handlers.RotatingFileHandler(
+                os.path.join(log_dir, 'errors.log'),
+                maxBytes=max_log_size,
+                backupCount=max_backup_logs)
             error_file_handler.setLevel(logging.ERROR)
             error_file_handler.setFormatter(formatter)
             error_file_handler.addFilter(FileFilter())
@@ -107,8 +114,13 @@ class DefaultLogger(ExtraAttributeLogger, DebugEvalLogger):
             session_file_handler.addFilter(FileFilter())
             self.addHandler(session_file_handler)
 
-def build_default_logger(logger_name='logger', log_level=None, log_dir=None, console_enabled=True,
-                         max_log_size=5*1024*1024, max_backup_logs=5):
+def build_default_logger(
+    logger_name='logger',
+    log_level=None,
+    log_dir=None,
+    console_enabled=True,
+    max_log_size=5*1024*1024,
+    max_backup_logs=5):
     '''
     Generates a logger that outputs messages in the same format as default Flask applications.
     '''

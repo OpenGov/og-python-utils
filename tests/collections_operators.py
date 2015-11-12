@@ -11,8 +11,11 @@ class CollectionOperatorsTest(unittest.TestCase):
 
     def test_apply_dict_default_func_arg(self):
         self.assertDictEqual(operators.apply_dict_default({}, 'test', lambda: 1), {'test': 1})
-        self.assertDictEqual(operators.apply_dict_default({}, 'test', lambda a: a + '1'),
-                             {'test': 'test1'})
+        self.assertDictEqual(operators.apply_dict_default(
+            {},
+            'test',
+            lambda a: a + '1'),
+            {'test': 'test1'})
 
 if __name__ == "__main__":
     unittest.main()
