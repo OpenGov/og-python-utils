@@ -73,16 +73,38 @@ class FlaskStyleTimeFormatter(OrderedFormatsFormatter):
             s = '%02d/%3s/%04d %02d:%02d:%02d' % (day, MONTH_NAMES[month], year, hh, mm, ss)
         return s
 
-FLASK_FORMAT = FlaskStyleTimeFormatter(['%(host)s - - [%(asctime)s] %(message)s', '[%(asctime)s] %(message)s', '%(message)s'])
+FLASK_FORMAT = FlaskStyleTimeFormatter(
+    ['%(host)s - - [%(asctime)s] %(message)s',
+    '[%(asctime)s] %(message)s',
+    '%(message)s'])
 
 class FlaskLikeLogger(DefaultLogger):
     def set_host(self, host):
         self.extra_record_args['host'] = host
 
-    def apply_default_handlers(self, log_dir=None, console_enabled=True, max_log_size=5*1024*1024, max_backup_logs=5, formatter=FLASK_FORMAT):
-        DefaultLogger.apply_default_handlers(self, log_dir, console_enabled, max_log_size, max_backup_logs, formatter)
+    def apply_default_handlers(
+        self,
+        log_dir=None,
+        console_enabled=True,
+        max_log_size=5*1024*1024,
+        max_backup_logs=5,
+        formatter=FLASK_FORMAT):
+        DefaultLogger.apply_default_handlers(
+            self,
+            log_dir,
+            console_enabled,
+            max_log_size,
+            max_backup_logs,
+            formatter)
 
-def build_flask_like_logger(logger_name='logger', log_level=None, log_dir=None, console_enabled=True, max_log_size=5*1024*1024, max_backup_logs=5, host=None):
+def build_flask_like_logger(
+    logger_name='logger',
+    log_level=None,
+    log_dir=None,
+    console_enabled=True,
+    max_log_size=5*1024*1024,
+    max_backup_logs=5,
+    host=None):
     '''
     Generates a logger that outputs messages in the same format as default Flask applications.
     '''

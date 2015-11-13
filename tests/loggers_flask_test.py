@@ -27,7 +27,10 @@ class FlaskLoggerTest(unittest.TestCase):
             os.makedirs(LOCAL_LOG_DIR)
         self.clear_logs()
         self.log_matcher = re.compile('\[\d\d\/[\w]+\/\d\d\d\d \d\d:\d\d:\d\d\] Log Me!\n')
-        self.logger = flask.build_flask_like_logger('flask_logger', log_level=logging.INFO, log_dir=LOCAL_LOG_DIR)
+        self.logger = flask.build_flask_like_logger(
+            'flask_logger',
+            log_level=logging.INFO,
+            log_dir=LOCAL_LOG_DIR)
 
     def tearDown(self):
         self.logger.handlers = []
