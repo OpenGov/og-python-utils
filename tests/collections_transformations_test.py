@@ -45,8 +45,10 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertEquals(transformations.flatten('abc'), ['abc'])
         self.assertEquals(transformations.flatten(['abc', 'def']), ['abc', 'def'])
         self.assertEquals(transformations.flatten(('abc', 'def')), ['abc', 'def'])
+        self.assertEquals(transformations.flatten({'a': 1}), [{'a': 1}])
         self.assertEquals(transformations.flatten((e for e in [1,2])), [1, 2])
         self.assertEquals(transformations.flatten(set(['abc', 'def'])), ['abc', 'def'])
+        self.assertEquals(transformations.flatten(xrange(5)), [0, 1, 2, 3, 4])
         self.assertEquals(transformations.flatten(FakeIterable([1, 2])), [1, 2])
 
     def test_flatten_nested(self):
@@ -56,7 +58,9 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertEquals(transformations.flatten([['abc', 'def']]), ['abc', 'def'])
         self.assertEquals(transformations.flatten([['abc'], ['def']]), ['abc', 'def'])
         self.assertEquals(transformations.flatten([['abc'], 'def']), ['abc', 'def'])
+        self.assertEquals(transformations.flatten([{'a': 1}, {'a': 2}]), [{'a': 1}, {'a': 2}])
         self.assertEquals(transformations.flatten((set(['abc']), ('def',))), ['abc', 'def'])
+        self.assertEquals(transformations.flatten([i] for i in xrange(5)), [0, 1, 2, 3, 4])
         self.assertEquals(transformations.flatten([1, FakeIterable([2])]), [1, 2])
 
     def test_flatten_many_nested(self):
@@ -66,8 +70,30 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertEquals(transformations.flatten([[['abc'], 'def']]), ['abc', 'def'])
         self.assertEquals(transformations.flatten([[[['abc']]], [['def']]]), ['abc', 'def'])
         self.assertEquals(transformations.flatten([[[[['abc']]]], 'def']), ['abc', 'def'])
+        self.assertEquals(transformations.flatten([[[[{'a': 1}, {'a': 2}]]]]), [{'a': 1}, {'a': 2}])
         self.assertEquals(transformations.flatten((set([('abc',)]), ([('def',)],))), ['abc', 'def'])
+        self.assertEquals(transformations.flatten([[[i]]] for i in xrange(5)), [0, 1, 2, 3, 4])
         self.assertEquals(transformations.flatten([[[[[1]]]], [FakeIterable([2])]]), [1, 2])
+
+    def test_merge_dicts_basics(self):
+        self.assertDictEqual(transformations.merge_dicts({'a': 1}), {'a': 1})
+        self.assertDictEqual(transformations.merge_dicts({'a': 1}, {'a': 2}), {'a': 2})
+        self.assertDictEqual(transformations.merge_dicts(
+            {'a': 1, 'b': 1}, {'a': 2, 'c': 1}), {'a': 2, 'b': 1, 'c': 1})
+
+    def test_merge_dicts_copy(self):
+        d = {'a': 1, 'b': 1}
+        self.assertDictEqual(transformations.merge_dicts(d, copy=True), d)
+        self.assertDictEqual(transformations.merge_dicts(d, d, copy=True), d)
+        self.assertDictEqual(transformations.merge_dicts(d, {'a': 2}, copy=True), {'a': 2, 'b':1})
+        self.assertDictEqual(d, {'a': 1, 'b': 1})
+
+    def test_merge_dicts_no_copy(self):
+        d = {'a': 1, 'b': 1}
+        self.assertDictEqual(transformations.merge_dicts(d, copy=False), d)
+        self.assertDictEqual(transformations.merge_dicts(d, d, copy=False), d)
+        self.assertDictEqual(transformations.merge_dicts(d, {'a': 2}, copy=False), {'a': 2, 'b':1})
+        self.assertEquals(d['a'], 2)
 
 if __name__ == "__main__":
     unittest.main()

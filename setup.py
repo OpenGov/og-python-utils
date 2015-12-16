@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def read(fname):
     with open(fname) as fhandle:
@@ -18,7 +18,8 @@ def readMD(fname):
     else:
         return read(fname)
 
-version = '0.0.3'
+version = '0.0.5'
+packages = find_packages(exclude=['*.tests', '*.tests.*', 'tests.*', 'tests', 'data'])
 required = [req.strip() for req in read('requirements.txt').splitlines() if req.strip()]
 setup(
     name='og-utils',
@@ -29,7 +30,7 @@ setup(
     long_description=readMD('README.md'),
     install_requires=required,
     license='MIT',
-    packages=['ogutils'],
+    packages=packages,
     test_suite='tests',
     zip_safe=False,
     url='https://github.com/OpenGov/og-python-utils',
