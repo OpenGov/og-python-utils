@@ -3,6 +3,12 @@ from checks import is_collection
 from itertools import islice
 
 def recursive_iter(enumerables):
+    '''
+    Walks nested list-like elements as though they were sequentially available
+
+    recursive_iter([[1,2], 3])
+    # => 1, 2, 3
+    '''
     if not is_collection(enumerables) or isinstance(enumerables, (basestring, dict)):
         yield enumerables
     else:
@@ -11,6 +17,12 @@ def recursive_iter(enumerables):
                 yield sub_elem
 
 def flatten(enumerable):
+    '''
+    Converts nested list-like elements into a single list
+
+    flatten([[1,2], 3])
+    # => [1, 2, 3]
+    '''
     return list(recursive_iter(enumerable))
 
 def degenerate(enumerable):
@@ -45,6 +57,13 @@ def merge_dicts(*dicts, **copy_check):
     return merged
 
 def batch(enumerable, batch_size):
+    '''
+    Breaks enumerable argument into batch size enumerable pieces. The last chunk can
+    be of any length up to batch_size.
+
+    batch(xrange(5), 3)
+    # => [0, 1, 2], [3, 4]
+    '''
     batch_size = max(int(batch_size), 1)
     try:
         enumerable.__getitem__

@@ -3,6 +3,12 @@ from ..functions.operators import restrict_args
 def apply_dict_default(dictionary, arg, default):
     '''
     Used to avoid generating a defaultdict object, or assigning defaults to a dict-like object
+
+    apply_dict_default({}, 'test', list)
+    # => {'test': []}
+
+    apply_dict_default({'test': 'ok'}, 'test', list)
+    # => {'test': 'ok'}
     '''
     if arg not in dictionary:
         if hasattr(default, '__call__'):

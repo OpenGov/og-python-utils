@@ -1,9 +1,14 @@
 import distutils
 from .collections.checks import is_collection, is_empty
 
-def booleanize(truthy, blank_value=False):
+def booleanize(truthy):
+    '''
+    Smartly converts argument to true or false. Strings and variants of
+    'true' and 'false' convert to appropriate types, along with normal
+    bool() like conversions.
+    '''
     if truthy is None:
-        return blank_value
+        return False
     elif isinstance(truthy, basestring):
         if truthy:
             try:
@@ -11,7 +16,7 @@ def booleanize(truthy, blank_value=False):
             except ValueError:
                 return True
         else:
-            return blank_value
+            return False
     elif is_collection(truthy):
         return not is_empty(truthy)
     else:

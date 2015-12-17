@@ -1,6 +1,12 @@
 from inspect import getargspec
 
 def restrict_args(func, *args, **kwargs):
+    '''
+    Restricts the possible arguements to a method to match the func argument.
+
+    restrict_args(lambda a: a, 1, 2)
+    # => 1
+    '''
     callargs = getargspec(func)
     if not callargs.varargs:
         args = args[0:len(callargs.args)]
