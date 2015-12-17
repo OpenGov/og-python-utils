@@ -110,5 +110,20 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertEquals(list(transformations.batch(set([1, 2, 3, 4]), 2)), [[1, 2], [3, 4]])
         self.assertEquals(list(transformations.batch(xrange(5), 3)), [(0, 1, 2), (3, 4)])
 
+    def test_degenertor_gen_xrange(self):
+        self.assertEquals(transformations.degenerate(xrange(0)), [])
+        self.assertEquals(transformations.degenerate(xrange(3)), [0, 1, 2])
+
+    def test_degenertor_gen_func(self):
+        def yield_func(top):
+            for i in range(top):
+                yield i
+        self.assertEquals(transformations.degenerate(yield_func(0)), [])
+        self.assertEquals(transformations.degenerate(yield_func(3)), [0, 1, 2])
+
+    def test_degenertor_gens(self):
+        self.assertEquals(transformations.degenerate(_ for _ in []), [])
+        self.assertEquals(transformations.degenerate(i for i in range(3)), [0, 1, 2])
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,3 +1,4 @@
+import inspect
 from checks import is_collection
 from itertools import islice
 
@@ -11,6 +12,19 @@ def recursive_iter(enumerables):
 
 def flatten(enumerable):
     return list(recursive_iter(enumerable))
+
+def degenerate(enumerable):
+    '''
+    Converts generators to lists
+
+    degenerate(xrange(2))
+    # => [0, 1]
+    '''
+    if (isinstance(enumerable, xrange) or
+        inspect.isgeneratorfunction(enumerable) or
+        inspect.isgenerator(enumerable)):
+        return list(enumerable)
+    return enumerable
 
 def merge_dicts(*dicts, **copy_check):
     '''
