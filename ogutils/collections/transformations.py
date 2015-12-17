@@ -1,4 +1,5 @@
 from checks import is_collection
+from itertools import islice
 
 def recursive_iter(enumerables):
     if not is_collection(enumerables) or isinstance(enumerables, (basestring, dict)):
@@ -28,3 +29,21 @@ def merge_dicts(*dicts, **copy_check):
         else:
             merged.update(merge_dict)
     return merged
+
+def batch(enumerable, batch_size):
+    batch_size = max(int(batch_size), 1)
+    try:
+        enumerable.__getitem__
+        total_size = len(enumerable)
+    except (TypeError, AttributeError):
+        enumerable = list(enumerable)
+        total_size = len(enumerable)
+    if total_size == 0:
+        yield tuple()
+    try:
+        for batch_index in xrange(0, total_size, batch_size):
+            yield enumerable[batch_index:min(batch_index + batch_size, total_size)]
+    except TypeError:
+        # Fall back on islice, though it's not as efficient the way we're using it
+        for batch_start in xrange(0, total_size, batch_size):
+            yield tuple(islice(enumerable, batch_start, min(batch_start + batch_size, total_size)))

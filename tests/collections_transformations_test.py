@@ -95,5 +95,20 @@ class CollectionTransformationsTest(unittest.TestCase):
         self.assertDictEqual(transformations.merge_dicts(d, {'a': 2}, copy=False), {'a': 2, 'b':1})
         self.assertEquals(d['a'], 2)
 
+    def test_batch_basics(self):
+        self.assertEquals(list(transformations.batch([], 2)), [()])
+        self.assertEquals(list(transformations.batch([1], 0)), [[1]])
+        self.assertEquals(list(transformations.batch([1], 1)), [[1]])
+        self.assertEquals(list(transformations.batch([1], 2)), [[1]])
+        self.assertEquals(list(transformations.batch([1, 2], 1)), [[1], [2]])
+        self.assertEquals(list(transformations.batch([1, 2, 3, 4], 2)), [[1, 2], [3, 4]])
+        self.assertEquals(list(transformations.batch([1, 2, 3, 4], 3)), [[1, 2, 3], [4]])
+
+    def test_batch_types(self):
+        self.assertEquals(list(transformations.batch(xrange(0), 2)), [tuple()])
+        self.assertEquals(list(transformations.batch((1, 2), 1)), [(1,), (2,)])
+        self.assertEquals(list(transformations.batch(set([1, 2, 3, 4]), 2)), [[1, 2], [3, 4]])
+        self.assertEquals(list(transformations.batch(xrange(5), 3)), [(0, 1, 2), (3, 4)])
+
 if __name__ == "__main__":
     unittest.main()
